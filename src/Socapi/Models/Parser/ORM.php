@@ -89,13 +89,16 @@ class ORM
         switch($line)
         {
             case 'd':
-                $filters[] = "(p.position = 'g' OR p.position = 'd')"; break;
+                $filters[] = "(p.position = 'g' OR p.position = 'd')";
+                break;
                 
             case 'm':
-                $filters[] = "(p.position = 'md' OR p.position = 'mo')"; break;
+                $filters[] = "(p.position = 'md' OR p.position = 'mo')";
+                break;
                 
             case 'a':
-                $filters[] = "p.position = 'a'"; break;
+                $filters[] = "p.position = 'a'";
+                break;
         }
         
         $filterString = '';
@@ -166,7 +169,7 @@ SQL;
         while($row = $st->fetch(PDO::FETCH_ASSOC))
         {
             $line = array(
-            	'playerId' => utf8_encode($row['playerId']),
+                'playerId' => utf8_encode($row['playerId']),
                 'player' => utf8_encode($row['player']),
                 'club' => utf8_encode($row['club']),
                 'position' => $row['position'],
@@ -189,8 +192,6 @@ SQL;
             $value
         );
         
-        var_dump($sql);
-        
         $this->query($sql);
     }
     
@@ -201,14 +202,14 @@ SQL;
             $login
         );
         
-        $st = $this->query($sql);
+        $this->query($sql);
         
         return $this->db->lastInsertId();
     }
     
     public function getPlayerId($lfpName)
     {
-        $r = $this->query($q = sprintf(
+        $r = $this->query(sprintf(
             "SELECT id FROM lfp_player WHERE lfp_name = '%s'",
             utf8_decode($lfpName)
         ));

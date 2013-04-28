@@ -89,7 +89,7 @@ class LFPPlayerParser
                 if($this->excludeNoPlayPlayers === false || $played > 0)
                 {
                     $firstName = $matches['prenom'][$index];
-                    $players[] = empty($firstName) ? $name : sprintf('%s %s', $firstName, $name);;
+                    $players[] = empty($firstName) ? $name : sprintf('%s %s', $firstName, $name);
                 }
             }
         }
