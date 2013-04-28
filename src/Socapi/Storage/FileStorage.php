@@ -2,18 +2,18 @@
 
 namespace Socapi\Storage;
 
+use Socapi\Commands\Outputable;
+
 class FileStorage implements Storage
 {
+    use Outputable;
+    
     private
         $rootPath;
     
     public function __construct($rootPath)
     {
-        if(is_dir($rootPath) === false)
-        {
-            mkdir($rootPath, 755, true);
-        }
-        
+        $this->writeDir($rootPath);
         $this->rootPath = rtrim($rootPath, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;
     }
     
@@ -23,6 +23,7 @@ class FileStorage implements Storage
         
         if($this->exists($path))
         {
+            $this->writeln('Read ' . $path);
             return file_get_contents($path);
         }
         
@@ -32,8 +33,18 @@ class FileStorage implements Storage
     public function write($key, $value)
     {
         $path = $this->getPath($key);
+        $this->writeDir(dirname($path));
+        $this->writeln('Write ' . $path);
         
         return file_put_contents($path, $value) !== false;
+    }
+    
+    private function writeDir($path)
+    {
+        if(is_dir($path) === false )
+        {
+            mkdir($path, 0755, true);
+        }
     }
     
     private function exists($path)
@@ -51,9 +62,13 @@ class FileStorage implements Storage
             
             if($expiration > time())
             {
+                $this->writeln('Cache is valid : ' . $key);
+                
                 return true;
             }
         }
+        
+        $this->writeln('Cache is invalid : ' . $key);
         
         return false;
     }
