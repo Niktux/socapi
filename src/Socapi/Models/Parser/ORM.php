@@ -15,7 +15,7 @@ class ORM
 
     public function getTeamInfo($lfpName)
     {
-        $r = $this->query($q = sprintf(
+        $r = $this->query(sprintf(
             "SELECT id, promoted FROM lfp_team WHERE lfp_name = '%s'",
             utf8_decode($lfpName)
         ));
@@ -86,12 +86,16 @@ class ORM
             $filters[] = sprintf("day = %d", intval($day));
         }
         
-        $lineCond = '';
         switch($line)
         {
-            case 'd': $filters[] = "(p.position = 'g' OR p.position = 'd')"; break;
-            case 'm': $filters[] = "(p.position = 'md' OR p.position = 'mo')"; break;
-            case 'a': $filters[] = "p.position = 'a'"; break;
+            case 'd':
+                $filters[] = "(p.position = 'g' OR p.position = 'd')"; break;
+                
+            case 'm':
+                $filters[] = "(p.position = 'md' OR p.position = 'mo')"; break;
+                
+            case 'a':
+                $filters[] = "p.position = 'a'"; break;
         }
         
         $filterString = '';

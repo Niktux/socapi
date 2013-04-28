@@ -71,30 +71,30 @@ class LFPPlayerParser
     
     private function processPositionBlock($html)
     {
-         $players = array();
+        $players = array();
         
-         $parts = explode('</h2>', $html);
-         $position = $this->translatePosition($parts[0]);
-         $html = $parts[1];
+        $parts = explode('</h2>', $html);
+        $position = $this->translatePosition($parts[0]);
+        $html = $parts[1];
          
-         if(preg_match_all(
+        if(preg_match_all(
             '~<a class="nom" href="/joueur/([^"]+)" class="lien_fiche">(?P<nom>[^<]+)</a><span class="prenom">(?P<prenom>[^<]*)</span>.*<li><a class="chiffre" href="/joueur/\1#bloc_temps" class="lien_fiche">(?P<played>\d{1,2})</a><span class="legende">Matchs?</span></li>~Us',
-             $html,
-             $matches
-         ))
-         {
-             foreach($matches['nom'] as $index => $name)
-             {
-                 $played = $matches['played'][$index];
-                 if($this->excludeNoPlayPlayers === false || $played > 0)
-                 {
-                     $firstName = $matches['prenom'][$index];
-                     $players[] = empty($firstName) ? $name : sprintf('%s %s', $firstName, $name);;
-                 }
-             }
-         }
+            $html,
+            $matches
+        ))
+        {
+            foreach($matches['nom'] as $index => $name)
+            {
+                $played = $matches['played'][$index];
+                if($this->excludeNoPlayPlayers === false || $played > 0)
+                {
+                    $firstName = $matches['prenom'][$index];
+                    $players[] = empty($firstName) ? $name : sprintf('%s %s', $firstName, $name);;
+                }
+            }
+        }
          
-         return array($position => $players);
+        return array($position => $players);
     }
     
     private function translatePosition($position)

@@ -10,8 +10,7 @@ class LFPParser
         PARSE_ERROR = -42;
     
     private
-        $season,
-        $matches;
+        $season;
     
     public function __construct($season)
     {
@@ -28,7 +27,7 @@ class LFPParser
         $url = $this->computeUrl($day);
         $html = file_get_contents($url);
         
-      //  file_put_contents("cache/html/$day.html", $html);
+        // file_put_contents("cache/html/$day.html", $html);
         
         $matches = $this->extractMatchesUrls($html);
         $results = $this->processMatches($matches);
@@ -60,24 +59,23 @@ class LFPParser
             }
         }
         
-        $result['link'] = array_map(array($this, 'filterLink'), $result['link']);
+        $result['link'] = array_map(array($this, function(){
+            
+            if($link === '<img src="/images/picto_stats.png"')
+            {
+                return self::DELAYED;
+            }
+            
+            if(preg_match('~/ligue1/feuille_match/(?<id>\d+)~', $link, $matches))
+            {
+                return $matches['id'];
+            }
+            
+            return self::PARSE_ERROR;
+            
+        }), $result['link']);
         
         return $result;
-    }
-    
-    private function filterLink($link)
-    {
-        if($link === '<img src="/images/picto_stats.png"')
-        {
-            return self::DELAYED;
-        }
-        
-        if(preg_match('~/ligue1/feuille_match/(?<id>\d+)~', $link, $matches))
-        {
-            return $matches['id'];
-        }
-        
-        return self::PARSE_ERROR;
     }
     
     private function processMatches(array $matches)
@@ -171,7 +169,7 @@ class LFPParser
         if(preg_match_all('~<a href="/joueur/.*">(?<scorers>.*</a>.*(\(csc\))?.*)</li>~Us', $scorerHtml, $matches))
         {
             
-            foreach($matches['scorers'] as $index => $scorer)
+            foreach($matches['scorers'] as $scorer)
             {
                 $parts = explode('</a>', $scorer);
                 $scorer = $this->filterPlayerName(trim($parts[0]));
