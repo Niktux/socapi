@@ -27,6 +27,12 @@ class LFPImport extends Command
                 'day',
                 InputArgument::OPTIONAL,
                 'day to import (from current season)'
+            )
+            ->addOption(
+                'force',
+                null,
+                InputOption::VALUE_NONE,
+                'bypass cache and force download from LFP website'
             );
     }
     
@@ -40,8 +46,12 @@ class LFPImport extends Command
         }
         
         $loader = new LFPLoader(Season::current());
-        $loader->setCacheDriver($storage = new FileStorage('cache/import/lfp'));
-        $storage->setOutputInterface($output);
+        
+        if($input->getOption('force') !== true)
+        {
+            $loader->setCacheDriver($storage = new FileStorage('cache/import/lfp'));
+            $storage->setOutputInterface($output);
+        }
         
         $parser = new LFPParser($loader);
         $result = $parser->parse($day);

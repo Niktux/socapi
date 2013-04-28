@@ -4,44 +4,19 @@ namespace Socapi\Models\Import;
 
 class LFPPlayerParser
 {
-    const
-        CACHE_DIR = 'cache/players/',
-        FILE_EXTENSION = '.cache';
-    
     private
-        $excludeNoPlayPlayers;
+        $loader;
     
-    public function __construct($excludeNoPlayPlayers = false)
+    public function __construct(Remote\Loader $loader)
     {
-        $this->excludeNoPlayPlayers = $excludeNoPlayPlayers;
+        $this->loader = $loader;
     }
     
-    public function parse($teamUrlFormatted, $force = false)
+    public function parse($teamUrlFormatted)
     {
-        $html = $this->getHtml($teamUrlFormatted, $force);
+        $html = $this->loader->loadPlayers($teamUrlFormatted);
 
         return $this->extractPlayers($html);
-    }
-    
-    private function getHtml($teamUrlFormatted, $force = false)
-    {
-        $file = self::CACHE_DIR . $teamUrlFormatted . self::FILE_EXTENSION;
-        if($force === false && file_exists($file))
-        {
-            return file_get_contents($file);
-        }
-        
-        $url = sprintf('http://www.lfp.fr/club/%s', $teamUrlFormatted);
-        
-        $html = file_get_contents($url);
-        if($html === false)
-        {
-            throw new Exception($url . ' not found');
-        }
-        
-        file_put_contents($file, $html);
-        
-        return $html;
     }
     
     private function extractPlayers($html)
@@ -86,11 +61,8 @@ class LFPPlayerParser
             foreach($matches['nom'] as $index => $name)
             {
                 $played = $matches['played'][$index];
-                if($this->excludeNoPlayPlayers === false || $played > 0)
-                {
-                    $firstName = $matches['prenom'][$index];
-                    $players[] = empty($firstName) ? $name : sprintf('%s %s', $firstName, $name);
-                }
+                $firstName = $matches['prenom'][$index];
+                $players[] = empty($firstName) ? $name : sprintf('%s %s', $firstName, $name);
             }
         }
          
