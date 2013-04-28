@@ -105,7 +105,7 @@ class LFPParser
         }
         else
         {
-            $missingIndexes = array('scorers_home', 'scorers_away', 'csc_home', 'csc_away');
+            $missingIndexes = array('scorers_home', 'scorers_away', 'owngoals_home', 'owngoals_away');
             foreach($missingIndexes as $index)
             {
                 $match[$index] = array();
@@ -140,11 +140,11 @@ class LFPParser
         
         $filteredScorers = $this->filterScorers($info['scorers_home'][0]);
         $info['scorers_home'] = $filteredScorers['scorers'];
-        $info['csc_away'] = $filteredScorers['csc'];
+        $info['owngoals_away'] = $filteredScorers['csc'];
 
         $filteredScorers = $this->filterScorers($info['scorers_away'][0]);
         $info['scorers_away'] = $filteredScorers['scorers'];
-        $info['csc_home'] = $filteredScorers['csc'];
+        $info['owngoals_home'] = $filteredScorers['csc'];
 
         $info['cards_home'] = $this->filterCards($info['cards_home'][0]);
         $info['cards_away'] = $this->filterCards($info['cards_away'][0]);
