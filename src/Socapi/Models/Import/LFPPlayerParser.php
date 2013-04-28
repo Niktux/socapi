@@ -60,7 +60,6 @@ class LFPPlayerParser
         {
             foreach($matches['nom'] as $index => $name)
             {
-                $played = $matches['played'][$index];
                 $firstName = $matches['prenom'][$index];
                 $players[] = empty($firstName) ? $name : sprintf('%s %s', $firstName, $name);
             }
