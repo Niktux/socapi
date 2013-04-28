@@ -50,7 +50,7 @@ class LFPParser
             }
         }
         
-        $result['link'] = array_map(array($this, function(){
+        $result['link'] = array_map(function($link){
             
             if($link === '<img src="/images/picto_stats.png"')
             {
@@ -64,7 +64,7 @@ class LFPParser
             
             return self::PARSE_ERROR;
             
-        }), $result['link']);
+        }, $result['link']);
         
         return $result;
     }
