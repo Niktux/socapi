@@ -13,7 +13,7 @@ class LFPParser
     
     public function __construct(Remote\Loader $loader)
     {
-        $this->loader = loader;
+        $this->loader = $loader;
     }
     
     public function parse($day)
