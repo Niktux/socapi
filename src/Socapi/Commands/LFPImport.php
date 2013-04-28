@@ -41,7 +41,7 @@ class LFPImport extends Command
         
         $loader = new LFPLoader(Season::current());
         $loader->setCacheDriver($storage = new FileStorage('cache/import/lfp'));
-        //$storage->setOutputInterface($output);
+        $storage->setOutputInterface($output);
         
         $parser = new LFPParser($loader);
         $result = $parser->parse($day);
