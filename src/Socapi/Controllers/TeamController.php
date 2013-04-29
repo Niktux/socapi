@@ -17,14 +17,14 @@ class TeamController
         $this->db = $db;
     }
     
-    public function teamAction($leagueId, $teamId)
+    public function teamAction($teamId)
     {
         $team = new Team($this->db, $teamId);
         
         return new JsonResponse($team->toArray());
     }
     
-    public function teamsAction($leagueId)
+    public function teamsAction()
     {
         $collection = new TeamCollection($this->db);
         $teams = $collection->fetch();

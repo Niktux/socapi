@@ -29,7 +29,7 @@ $app->register(new Silex\Provider\DoctrineServiceProvider(), array(
     ),
 ));
 
-$app->mount('/league/{leagueId}/teams', new Socapi\Controllers\TeamControllerProvider());
+$app->mount('/league/1/teams', new Socapi\Controllers\TeamControllerProvider());
 
 $app->after(function (Request $request, Response $response) use($startTime){
     $response->headers->set('X-Generation-Time', microtime(true) - $startTime);
