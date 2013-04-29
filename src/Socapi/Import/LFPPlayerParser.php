@@ -1,6 +1,6 @@
 <?php
 
-namespace Socapi\Models\Import;
+namespace Socapi\Import;
 
 class LFPPlayerParser
 {

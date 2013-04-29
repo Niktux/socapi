@@ -2,14 +2,13 @@
 
 namespace Socapi\Commands;
 
-use Socapi\Models\Import\LFPPlayerParser;
+use Socapi\Import\LFPPlayerParser;
+use Socapi\Import\LFPParser;
+use Socapi\Import\Remote\LFPLoader;
 
 use Socapi\Storage\FileStorage;
 
-use Socapi\Models\Import\LFPParser;
-
 use Socapi\Models\Season;
-use Socapi\Models\Import\Remote\LFPLoader;
 
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;

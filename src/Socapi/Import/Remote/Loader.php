@@ -1,6 +1,6 @@
 <?php
 
-namespace Socapi\Models\Import\Remote;
+namespace Socapi\Import\Remote;
 
 interface Loader
 {
