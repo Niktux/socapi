@@ -7,3 +7,4 @@ vendor/*
 .settings
 cache
 logs
+config/db.yml
