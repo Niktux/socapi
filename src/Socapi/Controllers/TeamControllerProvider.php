@@ -10,7 +10,7 @@ class TeamControllerProvider implements ControllerProviderInterface
     public function connect(Application $app)
     {
         $app['team.controller'] = $app->share(function() use($app) {
-           return new TeamController($app['db']);
+            return new TeamController($app['db']);
         });
         
         // creates a new controller based on the default route
