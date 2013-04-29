@@ -12,7 +12,7 @@ class TeamCollection
         $this->db = $db;
     }
     
-    public function fetch($offset = 0, $limit = false)
+    public function fetch(/*$offset = 0, $limit = false*/)
     {
         // FIXME prototype without tests
         $rows = $this->db->fetchAll('SELECT id FROM teams');
