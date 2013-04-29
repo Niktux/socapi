@@ -1,8 +1,12 @@
 <?php
 
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Yaml\Yaml;
 
 require '../src/bootstrap.php';
+
+$startTime = microtime(true);
 
 $app = new Silex\Application();
 
@@ -26,5 +30,9 @@ $app->register(new Silex\Provider\DoctrineServiceProvider(), array(
 ));
 
 $app->mount('/league/{leagueId}/teams', new Socapi\Controllers\TeamControllerProvider());
+
+$app->after(function (Request $request, Response $response) use($startTime){
+    $response->headers->set('X-Generation-Time', microtime(true) - $startTime);
+});
 
 $app->run();
