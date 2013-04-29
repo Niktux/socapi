@@ -6,3 +6,4 @@ vendor/*
 .buildpath
 .settings
 cache
+logs
