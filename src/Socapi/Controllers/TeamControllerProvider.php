@@ -16,7 +16,9 @@ class TeamControllerProvider implements ControllerProviderInterface
         // creates a new controller based on the default route
         $controllers = $app['controllers_factory'];
         
-        $controllers->get('/{teamId}', 'team.controller:teamAction');
+        $controllers->get('/{teamId}', 'team.controller:teamAction')
+            ->assert('teamId', '\d+');
+        
         $controllers->get('/', 'team.controller:teamsAction');
         
         return $controllers;

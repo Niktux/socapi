@@ -16,9 +16,13 @@ class PlayerControllerProvider implements ControllerProviderInterface
         // creates a new controller based on the default route
         $controllers = $app['controllers_factory'];
         
-        $controllers->get('/{playerId}', 'player.controller:playerAction');
-        $controllers->get('/', 'player.controller:playersAction');
+        $controllers->get('/{playerId}', 'player.controller:playerAction')
+            ->assert('playerId', '\d+')
+            ->assert('teamId', '\d+');
         
+        $controllers->get('/', 'player.controller:playersAction')
+            ->assert('teamId', '\d+');
+            
         return $controllers;
     }
 }
