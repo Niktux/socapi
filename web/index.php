@@ -9,6 +9,7 @@ require '../src/bootstrap.php';
 $startTime = microtime(true);
 
 $app = new Silex\Application();
+$app['debug'] = true;
 
 $password = '';
 $config = Yaml::parse('../config/db.yml');
@@ -29,6 +30,7 @@ $app->register(new Silex\Provider\DoctrineServiceProvider(), array(
     ),
 ));
 
+$app->mount('/league/1/teams/{teamId}/players', new Socapi\Controllers\PlayerControllerProvider());
 $app->mount('/league/1/teams', new Socapi\Controllers\TeamControllerProvider());
 
 $app->after(function (Request $request, Response $response) use($startTime){
