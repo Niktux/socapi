@@ -29,7 +29,6 @@ class Team
         return array(
             'id' => $this->id,
             'name' => $this->name,
-            'players' => array(),
         );
     }
 }
